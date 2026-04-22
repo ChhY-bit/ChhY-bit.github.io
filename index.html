@@ -15,7 +15,7 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             line-height: 1.6;
             color: #333;
-            background-color: #f5f5f5;
+            background-color: #f0f4f8;
         }
 
         .container {
@@ -23,15 +23,16 @@
             min-height: 100vh;
         }
 
-        /* 左侧导航栏 */
+        /* 左侧导航栏 - 清新蓝色系 */
         .sidebar {
             width: 260px;
-            background-color: #2c3e50;
+            background: linear-gradient(180deg, #4A90D9 0%, #357ABD 100%);
             color: #fff;
             padding: 40px 20px;
             position: fixed;
             height: 100vh;
             overflow-y: auto;
+            box-shadow: 4px 0 20px rgba(74, 144, 217, 0.3);
         }
 
         .profile-section {
@@ -43,13 +44,14 @@
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            background-color: #34495e;
+            background-color: rgba(255, 255, 255, 0.2);
             margin: 0 auto 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 3px solid #3498db;
+            border: 3px solid rgba(255, 255, 255, 0.8);
             overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .profile-photo img {
@@ -60,7 +62,7 @@
 
         .profile-photo-placeholder {
             font-size: 12px;
-            color: #95a5a6;
+            color: rgba(255, 255, 255, 0.8);
         }
 
         .profile-name {
@@ -71,7 +73,7 @@
 
         .profile-title {
             font-size: 14px;
-            color: #bdc3c7;
+            color: rgba(255, 255, 255, 0.85);
         }
 
         /* 导航菜单 */
@@ -86,15 +88,20 @@
         .nav-link {
             display: block;
             padding: 12px 20px;
-            color: #ecf0f1;
+            color: rgba(255, 255, 255, 0.9);
             text-decoration: none;
             border-radius: 8px;
             transition: all 0.3s ease;
         }
 
-        .nav-link:hover,
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
         .nav-link.active {
-            background-color: #3498db;
+            background-color: rgba(255, 255, 255, 0.95);
+            color: #357ABD;
+            font-weight: 500;
         }
 
         /* 主内容区域 */
@@ -106,10 +113,11 @@
 
         section {
             background-color: #fff;
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 40px;
             margin-bottom: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(74, 144, 217, 0.1);
         }
 
         h2 {
@@ -117,12 +125,12 @@
             color: #2c3e50;
             margin-bottom: 25px;
             padding-bottom: 10px;
-            border-bottom: 2px solid #3498db;
+            border-bottom: 3px solid #4A90D9;
         }
 
         h3 {
             font-size: 18px;
-            color: #34495e;
+            color: #357ABD;
             margin: 20px 0 10px;
         }
 
@@ -133,7 +141,7 @@
 
         .about-grid {
             display: grid;
-            grid-template-columns: 1fr 200px;
+            grid-template-columns: 1fr;
             gap: 40px;
         }
 
@@ -144,10 +152,16 @@
         /* 论文列表 */
         .publication-item {
             padding: 20px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
+            background-color: #f8fbff;
+            border-radius: 12px;
             margin-bottom: 15px;
-            border-left: 4px solid #3498db;
+            border-left: 4px solid #4A90D9;
+            transition: all 0.3s ease;
+        }
+
+        .publication-item:hover {
+            background-color: #f0f7ff;
+            transform: translateX(5px);
         }
 
         .publication-title {
@@ -165,7 +179,7 @@
 
         .publication-venue {
             font-size: 14px;
-            color: #3498db;
+            color: #4A90D9;
             font-style: italic;
         }
 
@@ -177,35 +191,38 @@
         }
 
         .project-card {
-            background-color: #f8f9fa;
-            border-radius: 8px;
+            background: linear-gradient(135deg, #f8fbff 0%, #e8f4ff 100%);
+            border-radius: 12px;
             padding: 25px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(74, 144, 217, 0.15);
+            transition: all 0.3s ease;
         }
 
         .project-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 25px rgba(74, 144, 217, 0.2);
+            border-color: #4A90D9;
         }
 
         .project-name {
             font-size: 16px;
             font-weight: 600;
-            color: #2c3e50;
+            color: #357ABD;
             margin-bottom: 10px;
         }
 
         .project-desc {
             font-size: 14px;
-            color: #7f8c8d;
+            color: #5a6c7d;
             margin-bottom: 15px;
         }
 
         .project-link {
             display: inline-block;
-            color: #3498db;
+            color: #4A90D9;
             text-decoration: none;
             font-size: 14px;
+            font-weight: 500;
         }
 
         .project-link:hover {
@@ -217,7 +234,11 @@
             display: flex;
             align-items: center;
             padding: 15px 0;
-            border-bottom: 1px solid #ecf0f1;
+            border-bottom: 1px solid #f0f4f8;
+        }
+
+        .contact-item:last-child {
+            border-bottom: none;
         }
 
         .contact-icon {
@@ -241,6 +262,15 @@
             color: #2c3e50;
         }
 
+        .contact-value a {
+            color: #4A90D9;
+            text-decoration: none;
+        }
+
+        .contact-value a:hover {
+            text-decoration: underline;
+        }
+
         /* 响应式设计 */
         @media (max-width: 768px) {
             .sidebar {
@@ -253,10 +283,6 @@
             .main-content {
                 margin-left: 0;
                 padding: 20px;
-            }
-
-            .about-grid {
-                grid-template-columns: 1fr;
             }
 
             .profile-photo {
@@ -272,7 +298,6 @@
         <nav class="sidebar">
             <div class="profile-section">
                 <div class="profile-photo">
-                    <!-- 请将你的照片命名为 photo.jpg 放入 images 文件夹 -->
                     <img src="images/photo.jpg" alt="个人照片" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <span class="profile-photo-placeholder" style="display:none;">照片</span>
                 </div>
