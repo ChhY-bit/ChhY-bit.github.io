@@ -702,7 +702,6 @@ p {
     align-items: center;
     justify-content: center;
     margin-bottom: 15px;
-    border: 2px dashed var(--border-color);
     overflow: hidden;
 }
 
