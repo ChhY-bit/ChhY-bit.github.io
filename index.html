@@ -232,6 +232,57 @@
             font-style: italic;
         }
 
+        /* 获奖展示 */
+        .awards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .award-card {
+            background: linear-gradient(135deg, #fff9e6 0%, #fff3cc 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 193, 7, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .award-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.25);
+            border-color: #ffc107;
+        }
+
+        .award-icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .award-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .award-desc {
+            font-size: 14px;
+            color: #5a6c7d;
+            margin-bottom: 15px;
+        }
+
+        .award-link {
+            display: inline-block;
+            color: #856404;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .award-link:hover {
+            text-decoration: underline;
+        }
+
         /* 项目文档 */
         .project-grid {
             display: grid;
@@ -365,7 +416,7 @@
                     <a href="#publications" class="nav-link">学术成果</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#projects" class="nav-link">项目使用文档</a>
+                    <a href="#projects" class="nav-link">项目文档</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a href="#awards" class="nav-link">
@@ -373,9 +424,9 @@
                         <span class="dropdown-arrow">▼</span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="nav-item"><a href="docs/荣誉称号.html" class="nav-link">荣誉称号</a></li>
-                        <li class="nav-item"><a href="docs/竞赛奖项.html" class="nav-link">竞赛奖项</a></li>
-                        <li class="nav-item"><a href="docs/其他.html" class="nav-link">其他</a></li>
+                        <li class="nav-item"><a href="awards/荣誉称号.html" class="nav-link">荣誉称号</a></li>
+                        <li class="nav-item"><a href="awards/竞赛奖项.html" class="nav-link">竞赛奖项</a></li>
+                        <li class="nav-item"><a href="awards/其他.html" class="nav-link">其他</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -418,9 +469,34 @@
                 </div>
             </section>
 
-            <!-- 项目使用文档 -->
+            <!-- 获奖展示 -->
+            <section id="awards">
+                <h2>获奖展示</h2>
+                <div class="awards-grid">
+                    <div class="award-card">
+                        <div class="award-icon">🏆</div>
+                        <div class="award-name">荣誉称号</div>
+                        <div class="award-desc">三好学生、优秀学生干部等荣誉称号展示</div>
+                        <a href="awards/荣誉称号.html" class="award-link">查看详情 →</a>
+                    </div>
+                    <div class="award-card">
+                        <div class="award-icon">🎯</div>
+                        <div class="award-name">竞赛奖项</div>
+                        <div class="award-desc">各类学科竞赛、创新创业大赛获奖证书</div>
+                        <a href="awards/竞赛奖项.html" class="award-link">查看详情 →</a>
+                    </div>
+                    <div class="award-card">
+                        <div class="award-icon">📜</div>
+                        <div class="award-name">其他</div>
+                        <div class="award-desc">其他类型奖项、资质证书等展示</div>
+                        <a href="awards/其他.html" class="award-link">查看详情 →</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 项目文档 -->
             <section id="projects">
-                <h2>项目使用文档</h2>
+                <h2>项目文档</h2>
                 <div class="project-grid">
                     <div class="project-card">
                         <div class="project-name">[项目名称 1]</div>
