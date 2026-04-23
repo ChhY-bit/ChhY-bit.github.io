@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>项目文档 - 全部项目</title>
+    <title>文档</title>
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
@@ -34,39 +34,20 @@
     </div>
 
     <div class="container">
-        <!-- 左侧导航栏 -->
-        <nav class="sidebar">
-            <div class="profile-section">
-                <div class="profile-photo">
-                    <img src="../images/photo.jpg" alt="个人照片" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <span class="profile-photo-placeholder" style="display:none;">照片</span>
-                </div>
-                <div class="profile-name">C.Yang</div>
-                <div class="profile-title">控制科学与工程</div>
-                <div class="profile-degree">博士研究生在读</div>
-                <div class="profile-degree">（2026-2032）</div>
+        <!-- 左侧导航栏（由 JS 动态渲染） -->
+        <nav class="sidebar" id="doc-nav">
+            <div style="padding: 20px; text-align: center; color: var(--sidebar-text-muted);">
+                正在加载...
             </div>
-
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="../index.html" class="nav-link">返回主页</a>
-                </li>
-            </ul>
         </nav>
 
         <!-- 主内容区域 -->
         <main class="main-content">
-            <a href="../index.html" class="back-link">← 返回主页</a>
-
-            <section>
-                <h1>项目文档</h1>
-                <p class="section-desc">以下是所有项目文档的完整列表。</p>
-
-                <!-- 项目列表容器（由 JS 动态渲染） -->
-                <div id="project-list">
-                    <p class="section-desc">正在加载项目列表...</p>
+            <div class="doc-content" id="doc-content">
+                <div style="padding: 40px; text-align: center;">
+                    <p style="color: var(--text-secondary);">正在加载文档内容...</p>
                 </div>
-            </section>
+            </div>
         </main>
     </div>
 

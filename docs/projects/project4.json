@@ -1,0 +1,45 @@
+{
+  "id": "project4",
+  "name": "项目名称 4",
+  "version": "1.0.0",
+  "lastUpdated": "2024-01-01",
+  "sections": [
+    {
+      "id": "overview",
+      "title": "概述",
+      "content": "<p>在这里填写项目简介，介绍项目的主要功能、用途和技术栈。</p><div class=\"tip\"><div class=\"tip-title\">💡 提示</div><p>在这里添加一些有用的提示信息，帮助用户更好地理解和使用项目。</p></div>"
+    },
+    {
+      "id": "installation",
+      "title": "安装指南",
+      "content": "<p>描述项目的安装步骤和依赖要求。</p><pre><code># 示例安装命令\npip install your-package\nnpm install your-package</code></pre>"
+    },
+    {
+      "id": "quickstart",
+      "title": "快速入门",
+      "content": "<p>提供一个简单的示例，帮助用户快速上手。</p><pre><code>import your_package\n\n# 初始化\nmodel = your_package.Model()\nmodel.run()</code></pre>"
+    },
+    {
+      "id": "api",
+      "title": "API 参考",
+      "content": "<h3>核心函数</h3><p>详细描述核心函数的参数和返回值。</p><table><tr><th>参数</th><th>类型</th><th>说明</th></tr><tr><td><code>input</code></td><td>str</td><td>输入数据</td></tr><tr><td><code>option</code></td><td>dict</td><td>配置选项</td></tr></table>",
+      "subsections": [
+        {
+          "id": "examples",
+          "title": "示例代码",
+          "content": "<p>提供更多使用示例。</p>"
+        }
+      ]
+    },
+    {
+      "id": "faq",
+      "title": "常见问题",
+      "content": "<p>解答用户常见的问题。</p><div class=\"warning\"><div class=\"warning-title\">⚠️ 注意</div><p>在这里添加一些重要的注意事项，帮助用户避免常见错误。</p></div>"
+    },
+    {
+      "id": "changelog",
+      "title": "更新日志",
+      "content": "<p><strong>v1.0.0</strong> (2024-01-01)</p><ul><li>初始版本发布</li></ul>"
+    }
+  ]
+}

@@ -60,4 +60,46 @@ document.addEventListener('DOMContentLoaded', function() {
             dropdown.classList.toggle('open');
         });
     }
+
+    // 主页项目列表加载
+    const homeProjectList = document.getElementById('home-project-list');
+    if (homeProjectList) {
+        loadHomeProjects();
+    }
 });
+
+/**
+ * 加载主页项目列表（最多显示3个）
+ */
+async function loadHomeProjects() {
+    const container = document.getElementById('home-project-list');
+    if (!container) return;
+
+    try {
+        const response = await fetch('docs/projects/index.json');
+        if (!response.ok) throw new Error('加载失败');
+
+        const data = await response.json();
+        const projects = data.projects.slice(0, 3); // 只显示前3个
+
+        if (projects.length === 0) {
+            container.innerHTML = '<p class="section-desc">暂无项目</p>';
+            return;
+        }
+
+        let html = '';
+        projects.forEach(project => {
+            html += `
+                <div class="project-card">
+                    <div class="project-name">${project.name}</div>
+                    <div class="project-desc">${project.description || '暂无描述'}</div>
+                    <a href="docs/doc.html?id=${project.id}" class="project-link">查看文档 →</a>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+    } catch (error) {
+        container.innerHTML = '<p class="section-desc">加载项目失败</p>';
+    }
+}

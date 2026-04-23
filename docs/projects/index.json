@@ -1,0 +1,32 @@
+{
+  "projects": [
+    {
+      "id": "project1",
+      "name": "项目名称 1",
+      "description": "项目简要描述，说明主要功能和用途。",
+      "version": "1.0.0",
+      "lastUpdated": "2024-01-01"
+    },
+    {
+      "id": "project2",
+      "name": "项目名称 2",
+      "description": "项目简要描述，说明主要功能和用途。",
+      "version": "1.0.0",
+      "lastUpdated": "2024-01-01"
+    },
+    {
+      "id": "project3",
+      "name": "项目名称 3",
+      "description": "项目简要描述，说明主要功能和用途。",
+      "version": "1.0.0",
+      "lastUpdated": "2024-01-01"
+    },
+    {
+      "id": "project4",
+      "name": "项目名称 4",
+      "description": "项目简要描述，说明主要功能和用途。",
+      "version": "1.0.0",
+      "lastUpdated": "2024-01-01"
+    }
+  ]
+}
