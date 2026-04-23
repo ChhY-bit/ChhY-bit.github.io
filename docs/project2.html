@@ -3,264 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[项目名称] - 使用文档</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            line-height: 1.7;
-            color: #333;
-            background-color: #f0f4f8;
-        }
-
-        .container {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* 左侧导航栏 */
-        .sidebar {
-            width: 260px;
-            background: linear-gradient(180deg, #4A90D9 0%, #357ABD 100%);
-            color: #fff;
-            padding: 40px 20px;
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-            box-shadow: 4px 0 20px rgba(74, 144, 217, 0.3);
-        }
-
-        .sidebar-header {
-            margin-bottom: 30px;
-        }
-
-        .back-link {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            font-size: 14px;
-            padding: 10px 0;
-            transition: all 0.3s ease;
-        }
-
-        .back-link:hover {
-            color: #fff;
-        }
-
-        .project-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 5px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        /* 文档导航菜单 */
-        .doc-nav-menu {
-            list-style: none;
-            margin-top: 20px;
-        }
-
-        .doc-nav-item {
-            margin-bottom: 3px;
-        }
-
-        .doc-nav-link {
-            display: block;
-            padding: 10px 16px;
-            color: rgba(255, 255, 255, 0.85);
-            text-decoration: none;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .doc-nav-link:hover {
-            background-color: rgba(255, 255, 255, 0.15);
-            color: #fff;
-        }
-
-        .doc-nav-link.active {
-            background-color: rgba(255, 255, 255, 0.95);
-            color: #357ABD;
-            font-weight: 500;
-        }
-
-        .doc-nav-link.sub-item {
-            padding-left: 30px;
-            font-size: 13px;
-        }
-
-        /* 主内容区域 */
-        .main-content {
-            flex: 1;
-            margin-left: 260px;
-            padding: 50px 80px;
-            max-width: 900px;
-        }
-
-        .doc-content {
-            background-color: #fff;
-            border-radius: 16px;
-            padding: 50px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(74, 144, 217, 0.1);
-        }
-
-        h1 {
-            font-size: 32px;
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-
-        .doc-meta {
-            font-size: 14px;
-            color: #95a5a6;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #f0f4f8;
-        }
-
-        h2 {
-            font-size: 22px;
-            color: #357ABD;
-            margin: 35px 0 15px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #e8f4ff;
-        }
-
-        h3 {
-            font-size: 18px;
-            color: #4A90D9;
-            margin: 25px 0 10px;
-        }
-
-        p {
-            margin-bottom: 15px;
-            color: #4a5568;
-        }
-
-        ul, ol {
-            margin-bottom: 15px;
-            padding-left: 25px;
-            color: #4a5568;
-        }
-
-        li {
-            margin-bottom: 8px;
-        }
-
-        /* 代码块 */
-        pre {
-            background-color: #f8fbff;
-            border-radius: 8px;
-            padding: 20px;
-            overflow-x: auto;
-            margin: 20px 0;
-            border: 1px solid #e8f4ff;
-        }
-
-        code {
-            font-family: "Fira Code", "Consolas", monospace;
-            font-size: 14px;
-            color: #357ABD;
-        }
-
-        /* 行内代码 */
-        p code, li code {
-            background-color: #f0f7ff;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 13px;
-        }
-
-        /* 表格 */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #e8f4ff;
-        }
-
-        th {
-            background-color: #f8fbff;
-            color: #357ABD;
-            font-weight: 600;
-        }
-
-        tr:hover {
-            background-color: #f8fbff;
-        }
-
-        /* 提示框 */
-        .tip {
-            background-color: #e8f7ff;
-            border-left: 4px solid #4A90D9;
-            border-radius: 8px;
-            padding: 15px 20px;
-            margin: 20px 0;
-        }
-
-        .tip-title {
-            font-weight: 600;
-            color: #357ABD;
-            margin-bottom: 5px;
-        }
-
-        /* 警告框 */
-        .warning {
-            background-color: #fff8e8;
-            border-left: 4px solid #f0ad4e;
-            border-radius: 8px;
-            padding: 15px 20px;
-            margin: 20px 0;
-        }
-
-        .warning-title {
-            font-weight: 600;
-            color: #d97706;
-            margin-bottom: 5px;
-        }
-
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-                padding: 20px;
-            }
-
-            .main-content {
-                margin-left: 0;
-                padding: 20px;
-            }
-
-            .doc-content {
-                padding: 25px;
-            }
-        }
-    </style>
+    <title>[项目名称 2] - 使用文档</title>
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
+    <!-- 主题选择器 -->
+    <div class="theme-switcher">
+        <span class="theme-switcher-label">主题</span>
+        <button class="theme-btn" data-theme="default" title="黑白灰">
+            <span class="theme-tooltip">黑白灰</span>
+        </button>
+        <button class="theme-btn active" data-theme="light-blue" title="浅蓝">
+            <span class="theme-tooltip">浅蓝</span>
+        </button>
+        <button class="theme-btn" data-theme="dark-blue" title="深蓝">
+            <span class="theme-tooltip">深蓝</span>
+        </button>
+        <button class="theme-btn" data-theme="light-green" title="浅绿">
+            <span class="theme-tooltip">浅绿</span>
+        </button>
+        <button class="theme-btn" data-theme="purple" title="紫色">
+            <span class="theme-tooltip">紫色</span>
+        </button>
+        <button class="theme-btn" data-theme="orange" title="橙色">
+            <span class="theme-tooltip">橙色</span>
+        </button>
+        <button class="theme-btn" data-theme="pink" title="粉色">
+            <span class="theme-tooltip">粉色</span>
+        </button>
+    </div>
+
     <div class="container">
         <!-- 左侧导航栏 -->
         <nav class="sidebar">
             <div class="sidebar-header">
                 <a href="../index.html" class="back-link">← 返回主页</a>
-                <div class="project-title">[项目名称]</div>
+                <div class="project-title">[项目名称 2]</div>
             </div>
 
             <ul class="doc-nav-menu">
@@ -291,7 +69,7 @@
         <!-- 主内容区域 -->
         <main class="main-content">
             <div class="doc-content">
-                <h1>[项目名称]</h1>
+                <h1>[项目名称 2]</h1>
                 <p class="doc-meta">版本 1.0.0 · 最后更新: 2024-01-01</p>
 
                 <h2 id="overview">概述</h2>
@@ -357,27 +135,30 @@ model.run()</code></pre>
         </main>
     </div>
 
+    <script src="../js/main.js"></script>
     <script>
-        // 导航高亮
-        const navLinks = document.querySelectorAll('.doc-nav-link');
+        // 文档导航高亮
+        const docNavLinks = document.querySelectorAll('.doc-nav-link');
         const sections = document.querySelectorAll('h2[id]');
 
-        window.addEventListener('scroll', () => {
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (scrollY >= sectionTop - 150) {
-                    current = section.getAttribute('id');
-                }
-            });
+        if (sections.length > 0) {
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (scrollY >= sectionTop - 150) {
+                        current = section.getAttribute('id');
+                    }
+                });
 
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === '#' + current) {
-                    link.classList.add('active');
-                }
+                docNavLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
             });
-        });
+        }
     </script>
 </body>
 </html>
