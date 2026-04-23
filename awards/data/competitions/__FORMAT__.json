@@ -4,7 +4,7 @@
     "id": "【不可改】奖项唯一标识符。如 comp-001 的 id 应为 'comp001'，必须与文件名中的数字对应",
     "title": "【可改】奖项名称",
     "description": "【可改】简要描述，说明获奖时间、竞赛名称及名次",
-    "image": "【可改】证书图片路径，相对于 competitions/ 目录。如 'images/获奖证书.jpg'"
+    "image": "【可改】证书图片路径，相对于 awards/ 目录。如 'data/competitions/images/获奖证书.jpg'"
   },
   "_ADD_NEW": "新建 comp-XXX.json（XXX 为连续编号，不连续则不会被加载），页面会自动扫描加载"
 }

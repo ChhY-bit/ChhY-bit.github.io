@@ -2,5 +2,5 @@
   "id": "other003",
   "title": "[其他奖项名称]",
   "description": "简短说明：描述该奖项的获得时间、颁发机构及意义。",
-  "image": "images/证书.jpg"
+  "image": "data/others/images/证书.jpg"
 }
