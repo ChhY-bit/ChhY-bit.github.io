@@ -10,8 +10,8 @@
     <!-- 主题选择器 -->
     <div class="theme-switcher">
         <span class="theme-switcher-label">主题</span>
-        <button class="theme-btn" data-theme="default" title="黑白灰">
-            <span class="theme-tooltip">黑白灰</span>
+        <button class="theme-btn" data-theme="default" title="黑白">
+            <span class="theme-tooltip">黑白</span>
         </button>
         <button class="theme-btn active" data-theme="light-blue" title="浅蓝">
             <span class="theme-tooltip">浅蓝</span>
@@ -57,9 +57,9 @@
                         <span class="dropdown-arrow">▼</span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="nav-item"><a href="honors.html" class="nav-link active">荣誉称号</a></li>
+                        <li class="nav-item"><a href="honors.html" class="nav-link">荣誉称号</a></li>
                         <li class="nav-item"><a href="competition-awards.html" class="nav-link">竞赛奖项</a></li>
-                        <li class="nav-item"><a href="others.html" class="nav-link">其他</a></li>
+                        <li class="nav-item"><a href="others.html" class="nav-link">其他奖项</a></li>
                     </ul>
                 </li>
             </ul>
@@ -70,47 +70,18 @@
             <a href="../index.html" class="back-link">← 返回主页</a>
 
             <section>
-                <h1>荣誉称号</h1>
-                <p class="section-desc">以下是我在学习和生活中获得的各种荣誉称号。</p>
+                <h1 id="page-title">荣誉称号</h1>
+                <p class="section-desc" id="page-desc">以下是我在学习和生活中获得的各种荣誉称号。</p>
 
-                <div class="certificate-grid">
-                    <div class="certificate-card">
-                        <div class="certificate-image">
-                            <img src="images/荣誉证书1.jpg" alt="荣誉证书" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                            <span class="certificate-placeholder" style="display:none;">证书图片展示位</span>
-                        </div>
-                        <div class="certificate-info">
-                            <div class="certificate-title">[荣誉称号名称]</div>
-                            <div class="certificate-desc">简短说明：描述该荣誉的获得时间、颁发机构及意义。</div>
-                        </div>
-                    </div>
-
-                    <div class="certificate-card">
-                        <div class="certificate-image">
-                            <img src="images/荣誉证书2.jpg" alt="荣誉证书" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                            <span class="certificate-placeholder" style="display:none;">证书图片展示位</span>
-                        </div>
-                        <div class="certificate-info">
-                            <div class="certificate-title">[荣誉称号名称]</div>
-                            <div class="certificate-desc">简短说明：描述该荣誉的获得时间、颁发机构及意义。</div>
-                        </div>
-                    </div>
-
-                    <div class="certificate-card">
-                        <div class="certificate-image">
-                            <img src="images/荣誉证书3.jpg" alt="荣誉证书" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                            <span class="certificate-placeholder" style="display:none;">证书图片展示位</span>
-                        </div>
-                        <div class="certificate-info">
-                            <div class="certificate-title">[荣誉称号名称]</div>
-                            <div class="certificate-desc">简短说明：描述该荣誉的获得时间、颁发机构及意义。</div>
-                        </div>
-                    </div>
+                <!-- 证书列表（由 JS 动态渲染） -->
+                <div class="certificate-grid" id="award-list">
+                    <p class="section-desc">正在加载...</p>
                 </div>
             </section>
         </main>
     </div>
 
     <script src="../js/main.js"></script>
+    <script src="awards.js"></script>
 </body>
 </html>

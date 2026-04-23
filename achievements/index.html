@@ -10,8 +10,8 @@
     <!-- 主题选择器 -->
     <div class="theme-switcher">
         <span class="theme-switcher-label">主题</span>
-        <button class="theme-btn" data-theme="default" title="黑白灰">
-            <span class="theme-tooltip">黑白灰</span>
+        <button class="theme-btn" data-theme="default" title="黑白">
+            <span class="theme-tooltip">黑白</span>
         </button>
         <button class="theme-btn active" data-theme="light-blue" title="浅蓝">
             <span class="theme-tooltip">浅蓝</span>
@@ -62,83 +62,15 @@
                 <h1>学术成果</h1>
                 <p class="section-desc">以下是本人发表的学术论文、专利及软件著作权等成果。</p>
 
-                <div class="achievement-list">
-                    <div class="achievement-item">
-                        <div class="achievement-icon">📄</div>
-                        <div class="achievement-content">
-                            <div class="achievement-title">[论文标题 1]</div>
-                            <div class="achievement-meta">期刊名称 | 2024年 | 第一作者</div>
-                            <div class="achievement-desc">论文简要描述，说明研究内容和主要贡献。</div>
-                        </div>
-                    </div>
-
-                    <div class="achievement-item">
-                        <div class="achievement-icon">📄</div>
-                        <div class="achievement-content">
-                            <div class="achievement-title">[论文标题 2]</div>
-                            <div class="achievement-meta">期刊名称 | 2024年 | 第二作者</div>
-                            <div class="achievement-desc">论文简要描述，说明研究内容和主要贡献。</div>
-                        </div>
-                    </div>
-
-                    <div class="achievement-item">
-                        <div class="achievement-icon">📄</div>
-                        <div class="achievement-content">
-                            <div class="achievement-title">[论文标题 3]</div>
-                            <div class="achievement-meta">期刊名称 | 2023年 | 第一作者</div>
-                            <div class="achievement-desc">论文简要描述，说明研究内容和主要贡献。</div>
-                        </div>
-                    </div>
-
-                    <div class="achievement-item">
-                        <div class="achievement-icon">📄</div>
-                        <div class="achievement-content">
-                            <div class="achievement-title">[论文标题 4]</div>
-                            <div class="achievement-meta">期刊名称 | 2023年 | 共同一作</div>
-                            <div class="achievement-desc">论文简要描述，说明研究内容和主要贡献。</div>
-                        </div>
-                    </div>
-
-                    <div class="achievement-item">
-                        <div class="achievement-icon">📄</div>
-                        <div class="achievement-content">
-                            <div class="achievement-title">[论文标题 5]</div>
-                            <div class="achievement-meta">期刊名称 | 2023年 | 第三作者</div>
-                            <div class="achievement-desc">论文简要描述，说明研究内容和主要贡献。</div>
-                        </div>
-                    </div>
-
-                    <div class="achievement-item">
-                        <div class="achievement-icon">📄</div>
-                        <div class="achievement-content">
-                            <div class="achievement-title">[论文标题 6]</div>
-                            <div class="achievement-meta">期刊名称 | 2022年 | 第一作者</div>
-                            <div class="achievement-desc">论文简要描述，说明研究内容和主要贡献。</div>
-                        </div>
-                    </div>
-
-                    <div class="achievement-item">
-                        <div class="achievement-icon">📄</div>
-                        <div class="achievement-content">
-                            <div class="achievement-title">[论文标题 7]</div>
-                            <div class="achievement-meta">期刊名称 | 2022年 | 第二作者</div>
-                            <div class="achievement-desc">论文简要描述，说明研究内容和主要贡献。</div>
-                        </div>
-                    </div>
-
-                    <div class="achievement-item">
-                        <div class="achievement-icon">📄</div>
-                        <div class="achievement-content">
-                            <div class="achievement-title">[论文标题 8]</div>
-                            <div class="achievement-meta">期刊名称 | 2021年 | 第一作者</div>
-                            <div class="achievement-desc">论文简要描述，说明研究内容和主要贡献。</div>
-                        </div>
-                    </div>
+                <!-- 成果列表（由 JS 动态渲染） -->
+                <div class="achievement-list" id="achievement-list">
+                    <p class="section-desc">正在加载...</p>
                 </div>
             </section>
         </main>
     </div>
 
     <script src="../js/main.js"></script>
+    <script src="achievements.js"></script>
 </body>
 </html>

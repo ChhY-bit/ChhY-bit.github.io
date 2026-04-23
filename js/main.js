@@ -66,21 +66,62 @@ document.addEventListener('DOMContentLoaded', function() {
     if (homeProjectList) {
         loadHomeProjects();
     }
+
+    // 主页学术成果加载
+    const homeAchievementList = document.getElementById('home-achievement-list');
+    if (homeAchievementList) {
+        loadHomeAchievements();
+    }
 });
 
 /**
+ * 加载主页学术成果（最多显示3个）
+ * 自动扫描 achievements/papers/ 目录下所有 paper-*.json 文件
+ */
+async function loadHomeAchievements() {
+    const container = document.getElementById('home-achievement-list');
+    if (!container) return;
+
+    try {
+        // 自动扫描前3个 paper-*.json 文件
+        const papers = await scanAndLoadFiles('achievements/papers/', 'paper-', 3);
+
+        if (papers.length === 0) {
+            container.innerHTML = '<p class="section-desc">暂无学术成果</p>';
+            return;
+        }
+
+        let html = '';
+        papers.forEach(paper => {
+            html += `
+                <div class="achievement-item">
+                    <div class="achievement-icon">${paper.icon || '📄'}</div>
+                    <div class="achievement-content">
+                        <div class="achievement-title">${paper.title}</div>
+                        <div class="achievement-meta">${paper.venue} | ${paper.year}年 | ${paper.authorRole}</div>
+                        <div class="achievement-desc">${paper.description || ''}</div>
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+    } catch (error) {
+        container.innerHTML = '<p class="section-desc">加载失败</p>';
+    }
+}
+
+/**
  * 加载主页项目列表（最多显示3个）
+ * 自动扫描 docs/projects/ 目录下所有 doc-*.json 文件
  */
 async function loadHomeProjects() {
     const container = document.getElementById('home-project-list');
     if (!container) return;
 
     try {
-        const response = await fetch('docs/projects/index.json');
-        if (!response.ok) throw new Error('加载失败');
-
-        const data = await response.json();
-        const projects = data.projects.slice(0, 3); // 只显示前3个
+        // 自动扫描前3个 doc-*.json 文件
+        const projects = await scanAndLoadFiles('docs/projects/', 'doc-', 3);
 
         if (projects.length === 0) {
             container.innerHTML = '<p class="section-desc">暂无项目</p>';
@@ -102,4 +143,38 @@ async function loadHomeProjects() {
     } catch (error) {
         container.innerHTML = '<p class="section-desc">加载项目失败</p>';
     }
+}
+
+/**
+ * 自动扫描目录并加载所有匹配前缀的 JSON 文件
+ * @param {string} dir - 目录路径
+ * @param {string} prefix - 文件名前缀
+ * @param {number} limit - 最大加载数量（可选，默认全部）
+ * @returns {Promise<Array>} 按序号排序的数据数组
+ */
+async function scanAndLoadFiles(dir, prefix, limit = null) {
+    const results = [];
+    let index = 1;
+
+    // 递增尝试加载文件，直到找不到文件或达到限制为止
+    while (true) {
+        // 如果设置了限制且已达到，跳出循环
+        if (limit && results.length >= limit) break;
+
+        const filename = `${prefix}${String(index).padStart(3, '0')}.json`;
+        const filepath = `${dir}${filename}`;
+
+        try {
+            const response = await fetch(filepath);
+            if (!response.ok) break; // 文件不存在，停止扫描
+
+            const data = await response.json();
+            results.push(data);
+            index++;
+        } catch (error) {
+            break;
+        }
+    }
+
+    return results;
 }

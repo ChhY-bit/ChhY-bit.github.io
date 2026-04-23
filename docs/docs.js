@@ -1,6 +1,7 @@
 /**
  * 文档渲染引擎
- * 从独立的 JSON 文件加载数据并动态渲染文档页面
+ * 自动扫描 projects 目录下的所有 JSON 文件并动态渲染
+ * 文件命名规则：doc-001.json, doc-002.json, ...
  */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -16,25 +17,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /**
  * 加载项目列表
+ * 自动扫描 projects/ 目录下所有 doc-*.json 文件
  */
 async function loadProjectList() {
-    try {
-        const indexData = await fetchJSON('projects/index.json');
-        const container = document.getElementById('project-list');
+    const container = document.getElementById('project-list');
+    if (!container) return;
 
-        if (!indexData.projects || indexData.projects.length === 0) {
+    try {
+        // 自动扫描所有 doc-*.json 文件
+        const projects = await scanAndLoadFiles('projects/', 'doc-');
+
+        if (projects.length === 0) {
             container.innerHTML = '<p class="section-desc">暂无项目文档</p>';
             return;
         }
 
         let html = '<div class="project-grid">';
 
-        indexData.projects.forEach(project => {
+        projects.forEach(project => {
             html += `
                 <div class="project-card">
                     <div class="project-name">${project.name}</div>
                     <div class="project-desc">${project.description || '暂无描述'}</div>
-                    <div class="project-meta">版本 ${project.version} · ${project.lastUpdated}</div>
+                    <div class="project-meta">版本 ${project.version || '1.0.0'} · ${project.lastUpdated || ''}</div>
                     <a href="doc.html?id=${project.id}" class="project-link">查看文档 →</a>
                 </div>
             `;
@@ -52,29 +57,9 @@ async function loadProjectList() {
  */
 async function loadProjectDoc(projectId) {
     try {
-        // 先加载项目列表获取基本信息
-        const indexData = await fetchJSON('projects/index.json');
-        const projectMeta = indexData.projects.find(p => p.id === projectId);
-
-        if (!projectMeta) {
-            showError('项目不存在');
-            return;
-        }
-
-        // 加载项目详细文档
+        // 直接加载对应的 JSON 文件
         const projectData = await fetchJSON(`projects/${projectId}.json`);
-
-        // 合并数据
-        const project = {
-            ...projectMeta,
-            ...projectData,
-            // 优先使用 index.json 中的元数据
-            name: projectMeta.name || projectData.name,
-            version: projectMeta.version || projectData.version,
-            lastUpdated: projectMeta.lastUpdated || projectData.lastUpdated
-        };
-
-        renderDocPage(project);
+        renderDocPage(projectData);
     } catch (error) {
         showError('加载文档失败: ' + error.message);
     }
@@ -104,23 +89,25 @@ function renderSidebar(project) {
         <ul class="doc-nav-menu">
     `;
 
-    project.sections.forEach(section => {
-        navHTML += `
-            <li class="doc-nav-item">
-                <a href="#${section.id}" class="doc-nav-link" data-section="${section.id}">${section.title}</a>
-            </li>
-        `;
+    if (project.sections) {
+        project.sections.forEach(section => {
+            navHTML += `
+                <li class="doc-nav-item">
+                    <a href="#${section.id}" class="doc-nav-link" data-section="${section.id}">${section.title}</a>
+                </li>
+            `;
 
-        if (section.subsections) {
-            section.subsections.forEach(sub => {
-                navHTML += `
-                    <li class="doc-nav-item">
-                        <a href="#${sub.id}" class="doc-nav-link sub-item" data-section="${sub.id}">· ${sub.title}</a>
-                    </li>
-                `;
-            });
-        }
-    });
+            if (section.subsections) {
+                section.subsections.forEach(sub => {
+                    navHTML += `
+                        <li class="doc-nav-item">
+                            <a href="#${sub.id}" class="doc-nav-link sub-item" data-section="${sub.id}">· ${sub.title}</a>
+                        </li>
+                    `;
+                });
+            }
+        });
+    }
 
     navHTML += '</ul>';
     navContainer.innerHTML = navHTML;
@@ -137,24 +124,26 @@ function renderContent(project) {
 
     let contentHTML = `
         <h1>${project.name}</h1>
-        <p class="doc-meta">版本 ${project.version} · 最后更新: ${project.lastUpdated}</p>
+        <p class="doc-meta">版本 ${project.version || '1.0.0'} · 最后更新: ${project.lastUpdated || ''}</p>
     `;
 
-    project.sections.forEach(section => {
-        contentHTML += `
-            <h2 id="${section.id}">${section.title}</h2>
-            <div class="section-content">${section.content}</div>
-        `;
+    if (project.sections) {
+        project.sections.forEach(section => {
+            contentHTML += `
+                <h2 id="${section.id}">${section.title}</h2>
+                <div class="section-content">${section.content}</div>
+            `;
 
-        if (section.subsections) {
-            section.subsections.forEach(sub => {
-                contentHTML += `
-                    <h3 id="${sub.id}">${sub.title}</h3>
-                    <div class="section-content">${sub.content}</div>
-                `;
-            });
-        }
-    });
+            if (section.subsections) {
+                section.subsections.forEach(sub => {
+                    contentHTML += `
+                        <h3 id="${sub.id}">${sub.title}</h3>
+                        <div class="section-content">${sub.content}</div>
+                    `;
+                });
+            }
+        });
+    }
 
     contentContainer.innerHTML = contentHTML;
 }
@@ -195,6 +184,36 @@ function initDocNavigation() {
             }
         });
     });
+}
+
+/**
+ * 自动扫描目录并加载所有匹配前缀的 JSON 文件
+ * @param {string} dir - 目录路径
+ * @param {string} prefix - 文件名前缀
+ * @returns {Promise<Array>} 按序号排序的数据数组
+ */
+async function scanAndLoadFiles(dir, prefix) {
+    const results = [];
+    let index = 1;
+
+    // 递增尝试加载文件，直到找不到文件为止
+    while (true) {
+        const filename = `${prefix}${String(index).padStart(3, '0')}.json`;
+        const filepath = `${dir}${filename}`;
+
+        try {
+            const response = await fetch(filepath);
+            if (!response.ok) break; // 文件不存在，停止扫描
+
+            const data = await response.json();
+            results.push(data);
+            index++;
+        } catch (error) {
+            break;
+        }
+    }
+
+    return results;
 }
 
 /**

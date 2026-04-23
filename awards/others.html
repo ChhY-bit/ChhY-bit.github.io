@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>其他 - 获奖展示</title>
+    <title>其他奖项 - 获奖展示</title>
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
     <!-- 主题选择器 -->
     <div class="theme-switcher">
         <span class="theme-switcher-label">主题</span>
-        <button class="theme-btn" data-theme="default" title="黑白灰">
-            <span class="theme-tooltip">黑白灰</span>
+        <button class="theme-btn" data-theme="default" title="黑白">
+            <span class="theme-tooltip">黑白</span>
         </button>
         <button class="theme-btn active" data-theme="light-blue" title="浅蓝">
             <span class="theme-tooltip">浅蓝</span>
@@ -59,7 +59,7 @@
                     <ul class="dropdown-menu">
                         <li class="nav-item"><a href="honors.html" class="nav-link">荣誉称号</a></li>
                         <li class="nav-item"><a href="competition-awards.html" class="nav-link">竞赛奖项</a></li>
-                        <li class="nav-item"><a href="others.html" class="nav-link active">其他</a></li>
+                        <li class="nav-item"><a href="others.html" class="nav-link">其他</a></li>
                     </ul>
                 </li>
             </ul>
@@ -70,47 +70,22 @@
             <a href="../index.html" class="back-link">← 返回主页</a>
 
             <section>
-                <h1>其他奖项</h1>
-                <p class="section-desc">以下是我获得的其他类型奖项和荣誉证明。</p>
+                <h1 id="page-title">其他奖项</h1>
+                <p class="section-desc" id="page-desc">以下是我获得的其他类型奖项和荣誉证明。</p>
 
-                <div class="certificate-grid">
-                    <div class="certificate-card">
-                        <div class="certificate-image">
-                            <img src="images/其他证书1.jpg" alt="证书" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                            <span class="certificate-placeholder" style="display:none;">证书图片展示位</span>
-                        </div>
-                        <div class="certificate-info">
-                            <div class="certificate-title">[奖项名称]</div>
-                            <div class="certificate-desc">简短说明：描述奖项类型、获得时间及颁发机构。</div>
-                        </div>
-                    </div>
-
-                    <div class="certificate-card">
-                        <div class="certificate-image">
-                            <img src="images/其他证书2.jpg" alt="证书" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                            <span class="certificate-placeholder" style="display:none;">证书图片展示位</span>
-                        </div>
-                        <div class="certificate-info">
-                            <div class="certificate-title">[奖项名称]</div>
-                            <div class="certificate-desc">简短说明：描述奖项类型、获得时间及颁发机构。</div>
-                        </div>
-                    </div>
-
-                    <div class="certificate-card">
-                        <div class="certificate-image">
-                            <img src="images/其他证书3.jpg" alt="证书" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                            <span class="certificate-placeholder" style="display:none;">证书图片展示位</span>
-                        </div>
-                        <div class="certificate-info">
-                            <div class="certificate-title">[奖项名称]</div>
-                            <div class="certificate-desc">简短说明：描述奖项类型、获得时间及颁发机构。</div>
-                        </div>
-                    </div>
+                <!-- 证书列表（由 JS 动态渲染） -->
+                <div class="certificate-grid" id="award-list">
+                    <p class="section-desc">正在加载...</p>
                 </div>
             </section>
         </main>
     </div>
 
     <script src="../js/main.js"></script>
+    <script>
+        // 指定当前页面的奖项类型
+        window.AWARDS_TYPE = 'others';
+    </script>
+    <script src="awards.js"></script>
 </body>
 </html>
