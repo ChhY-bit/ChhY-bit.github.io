@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>竞赛奖项 - 获奖展示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f0f4f8;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* 左侧导航栏 */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(180deg, #4A90D9 0%, #357ABD 100%);
+            color: #fff;
+            padding: 40px 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 4px 0 20px rgba(74, 144, 217, 0.3);
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .profile-title {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        /* 导航菜单 */
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 12px 20px;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.95);
+            color: #357ABD;
+            font-weight: 500;
+        }
+
+        /* 下拉菜单 */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown > .nav-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dropdown-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown.open .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            list-style: none;
+            padding-left: 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .dropdown.open .dropdown-menu {
+            max-height: 200px;
+        }
+
+        .dropdown-menu .nav-link {
+            font-size: 14px;
+            padding: 10px 20px;
+        }
+
+        .dropdown-menu .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        /* 主内容区域 */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            padding: 40px 60px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: #4A90D9;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        section {
+            background-color: #fff;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(74, 144, 217, 0.1);
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #4A90D9;
+        }
+
+        h2 {
+            font-size: 20px;
+            color: #357ABD;
+            margin: 25px 0 15px;
+        }
+
+        /* 证书展示区域 */
+        .certificate-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .certificate-card {
+            background: linear-gradient(135deg, #f8fbff 0%, #e8f4ff 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(74, 144, 217, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .certificate-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(74, 144, 217, 0.2);
+            border-color: #4A90D9;
+        }
+
+        .certificate-image {
+            width: 100%;
+            height: 200px;
+            background-color: #e8f4ff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            border: 2px dashed #c0d9f0;
+            overflow: hidden;
+        }
+
+        .certificate-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .certificate-placeholder {
+            color: #95a5a6;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .certificate-info {
+            text-align: center;
+        }
+
+        .certificate-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .certificate-desc {
+            font-size: 14px;
+            color: #5a6c7d;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 20px;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .certificate-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 左侧导航栏 -->
+        <nav class="sidebar">
+            <div class="profile-section">
+                <div class="profile-photo">
+                    <img src="../images/photo.jpg" alt="个人照片" onerror="this.style.display='none'">
+                </div>
+                <div class="profile-name">C.Yang</div>
+                <div class="profile-title">控制科学与工程 · 博士研究生</div>
+            </div>
+
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link">返回首页</a>
+                </li>
+                <li class="nav-item dropdown open">
+                    <a href="#" class="nav-link">
+                        获奖展示
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="nav-item"><a href="荣誉称号.html" class="nav-link">荣誉称号</a></li>
+                        <li class="nav-item"><a href="竞赛奖项.html" class="nav-link active">竞赛奖项</a></li>
+                        <li class="nav-item"><a href="其他.html" class="nav-link">其他</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- 主内容区域 -->
+        <main class="main-content">
+            <a href="../index.html" class="back-link">← 返回首页</a>
+
+            <section>
+                <h1>竞赛奖项</h1>
+                <p style="color: #666; margin-bottom: 30px;">以下是我参加各类竞赛获得的奖项和荣誉。</p>
+
+                <div class="certificate-grid">
+                    <div class="certificate-card">
+                        <div class="certificate-image">
+                            <img src="images/竞赛证书1.jpg" alt="竞赛证书" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <span class="certificate-placeholder" style="display:none;">证书图片展示位</span>
+                        </div>
+                        <div class="certificate-info">
+                            <div class="certificate-title">[竞赛名称]</div>
+                            <div class="certificate-desc">简短说明：描述竞赛名称、获奖等级、获奖时间及参赛意义。</div>
+                        </div>
+                    </div>
+
+                    <div class="certificate-card">
+                        <div class="certificate-image">
+                            <img src="images/竞赛证书2.jpg" alt="竞赛证书" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <span class="certificate-placeholder" style="display:none;">证书图片展示位</span>
+                        </div>
+                        <div class="certificate-info">
+                            <div class="certificate-title">[竞赛名称]</div>
+                            <div class="certificate-desc">简短说明：描述竞赛名称、获奖等级、获奖时间及参赛意义。</div>
+                        </div>
+                    </div>
+
+                    <div class="certificate-card">
+                        <div class="certificate-image">
+                            <img src="images/竞赛证书3.jpg" alt="竞赛证书" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <span class="certificate-placeholder" style="display:none;">证书图片展示位</span>
+                        </div>
+                        <div class="certificate-info">
+                            <div class="certificate-title">[竞赛名称]</div>
+                            <div class="certificate-desc">简短说明：描述竞赛名称、获奖等级、获奖时间及参赛意义。</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // 下拉菜单切换
+        const dropdown = document.querySelector('.dropdown');
+        const dropdownLink = dropdown.querySelector('.nav-link');
+
+        dropdownLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            dropdown.classList.toggle('open');
+        });
+    </script>
+</body>
+</html>
