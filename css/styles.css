@@ -693,6 +693,17 @@ p {
     border-color: var(--hover-border);
 }
 
+.year-badge {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
 .certificate-image {
     width: 100%;
     height: 200px;

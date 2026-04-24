@@ -73,8 +73,10 @@ async function loadAwards(type) {
 
         let html = '';
         items.forEach(item => {
+            const yearBadge = item.year ? `<span class="year-badge">${item.year}</span>` : '';
             html += `
                 <div class="certificate-card">
+                    ${yearBadge}
                     <div class="certificate-image">
                         <img src="${item.image}" alt="${item.title}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <span class="certificate-placeholder" style="display:none;">证书图片展示位</span>

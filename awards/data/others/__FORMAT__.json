@@ -2,6 +2,7 @@
   "_NOTE": "【格式说明 - 必读】",
   "_FIELDS": {
     "id": "【不可改】奖项唯一标识符。如 other-001 的 id 应为 'other001'，必须与文件名中的数字对应",
+    "year": "【可改】获奖年份，格式 YYYY。如 '2024'",
     "title": "【可改】奖项名称",
     "description": "【可改】简要描述，说明获得时间、颁发机构等",
     "image": "【可改】证书图片路径，相对于 awards/ 目录。如 'data/others/images/证书.jpg'"
