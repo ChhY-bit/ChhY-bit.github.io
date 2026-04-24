@@ -99,7 +99,7 @@ async function loadAwards(type) {
  * 自动扫描目录并加载所有匹配前缀的 JSON 文件
  * @param {string} dir - 目录路径
  * @param {string} prefix - 文件名前缀
- * @returns {Promise<Array>} 按序号排序的数据数组
+ * @returns {Promise<Array>} 按年份降序排序的数据数组（年份越大越靠前）
  */
 async function scanAndLoadFiles(dir, prefix) {
     const results = [];
@@ -122,5 +122,10 @@ async function scanAndLoadFiles(dir, prefix) {
         }
     }
 
-    return results;
+    // 按年份降序排序（年份越大越靠前）
+    return results.sort((a, b) => {
+        const yearA = a.year || '';
+        const yearB = b.year || '';
+        return yearB.localeCompare(yearA);
+    });
 }

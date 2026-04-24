@@ -1,7 +1,7 @@
 {
   "id": "honor002",
-  "year": "2024",
-  "title": "[荣誉称号名称]",
-  "description": "简短说明：描述该荣誉的获得时间、颁发机构及意义。",
-  "image": "data/honors/images/荣誉证书.jpg"
+  "year": "2023",
+  "title": "北京理工大学优秀学生",
+  "description": "校级荣誉",
+  "image": "data/honors/images/2023优秀学生.jpg"
 }
