@@ -44,6 +44,7 @@
     --placeholder-color: #8b949e;
     --doc-title-color: #24292f;
     --doc-heading-color: #57606a;
+    --accent-color: #57606a;
 }
 
 /* 浅蓝主题 */
@@ -66,6 +67,7 @@
     --placeholder-color: #90cdf4;
     --doc-title-color: #1a365d;
     --doc-heading-color: #2c5282;
+    --accent-color: #3182ce;
 }
 
 /* 深蓝主题 */
@@ -88,6 +90,7 @@
     --placeholder-color: #7fb3c4;
     --doc-title-color: #e2e8f0;
     --doc-heading-color: #63b3ed;
+    --accent-color: #63b3ed;
     --warning-bg: #2d2a1a;
     --warning-color: #f0ad4e;
 }
@@ -112,6 +115,7 @@
     --placeholder-color: #9ae6b4;
     --doc-title-color: #22543d;
     --doc-heading-color: #276749;
+    --accent-color: #2f855a;
 }
 
 /* 紫色主题 */
@@ -134,6 +138,7 @@
     --placeholder-color: #d6bcfa;
     --doc-title-color: #322659;
     --doc-heading-color: #44337a;
+    --accent-color: #805ad5;
 }
 
 /* 橙色主题 */
@@ -156,6 +161,7 @@
     --placeholder-color: #fbd38d;
     --doc-title-color: #7b341e;
     --doc-heading-color: #9c4221;
+    --accent-color: #c05621;
 }
 
 /* 粉色主题 */
@@ -178,6 +184,7 @@
     --placeholder-color: #fbb6ce;
     --doc-title-color: #702459;
     --doc-heading-color: #97266d;
+    --accent-color: #b83280;
 }
 
 body {
@@ -695,13 +702,14 @@ p {
 
 .year-badge {
     display: inline-block;
-    background-color: var(--accent-color);
-    color: white;
-    padding: 4px 10px;
-    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--accent-color);
+    padding: 4px 12px;
+    border-radius: 20px;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
     margin-bottom: 12px;
+    border: 1.5px solid var(--accent-color);
 }
 
 .certificate-image {
