@@ -17,10 +17,6 @@ a:hover {
     border-bottom-color: var(--heading-color);
 }
 
-a:visited {
-    color: var(--accent-color);
-}
-
 :root {
     /* 默认主题 - 浅蓝 */
     --sidebar-bg: #1e3a5f;
