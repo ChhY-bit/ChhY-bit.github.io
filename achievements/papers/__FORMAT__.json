@@ -5,8 +5,7 @@
     "title": "【可改】论文标题",
     "venue": "【可改】发表期刊/会议名称",
     "year": "【可改】发表年份，如 '2024'",
-    "authorRole": "【可改】作者角色，如 '第一作者'、'共同一作'、'第二作者' 等",
-    "description": "【可改】论文简介，说明研究内容和贡献",
+    "authors": "【可改】所有作者列表，自己的名字用 <strong> 包裹加粗，如 'Author1, <strong>C.Yang</strong>, Author3'",
     "icon": "【可改】图标 emoji，默认为 📄"
   },
   "_ADD_NEW": "新建 paper-XXX.json（XXX 为连续编号，不连续则不会被加载），页面会自动扫描加载"

@@ -31,9 +31,14 @@ async function loadAchievements() {
                 <div class="achievement-item">
                     <div class="achievement-icon">${paper.icon || '📄'}</div>
                     <div class="achievement-content">
-                        <div class="achievement-title">${paper.title}</div>
-                        <div class="achievement-meta">${paper.venue} | ${paper.year}年 | ${paper.authorRole}</div>
-                        <div class="achievement-desc">${paper.description || ''}</div>
+                        <div class="achievement-title">
+                            ${paper.title}
+                            <span class="achievement-year-badge">${paper.year}</span>
+                        </div>
+                        <div class="achievement-meta">
+                            <span class="achievement-venue">${paper.venue}</span>
+                            <span class="achievement-authors">${paper.authors || ''}</span>
+                        </div>
                     </div>
                 </div>
             `;

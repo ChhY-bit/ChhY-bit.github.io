@@ -1,9 +1,8 @@
 {
   "id": "paper001",
-  "title": "[论文标题 1]",
-  "venue": "期刊名称",
-  "year": "2024",
-  "authorRole": "第一作者",
-  "description": "论文简要描述，说明研究内容和主要贡献。",
+  "title": "Robust Adaptive Memoryless Observer Design for MIMO Systems with Unknown Time-delays",
+  "venue": "2025 IEEE 14th Data Driven Control and Learning Systems (DDCLS)",
+  "year": "2025",
+  "authors": "<strong>Chenhan Yang</strong>, Shiyi Li, Jing Na, Xuemei Ren",
   "icon": "📄"
 }

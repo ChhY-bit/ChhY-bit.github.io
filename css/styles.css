@@ -4,6 +4,23 @@
     box-sizing: border-box;
 }
 
+/* 现代化链接样式 */
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+a:hover {
+    color: var(--heading-color);
+    border-bottom-color: var(--heading-color);
+}
+
+a:visited {
+    color: var(--accent-color);
+}
+
 :root {
     /* 默认主题 - 浅蓝 */
     --sidebar-bg: #1e3a5f;
@@ -631,6 +648,36 @@ p {
     font-size: 13px;
     color: var(--text-secondary);
     margin-bottom: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+}
+
+.achievement-venue {
+    color: var(--link-color);
+    font-style: italic;
+}
+
+.achievement-authors {
+    font-size: 13px;
+}
+
+.achievement-authors strong {
+    color: var(--heading-color);
+    font-weight: 600;
+}
+
+.achievement-year-badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent-color);
+    background: var(--accent-bg);
+    padding: 2px 10px;
+    border-radius: 10px;
+    margin-left: 10px;
+    vertical-align: middle;
 }
 
 .achievement-desc {
@@ -958,3 +1005,127 @@ p {
     color: var(--warning-color, #d97706);
     margin-bottom: 5px;
 }
+
+/* 个人简介页面样式 */
+.intro-welcome {
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.intro-greeting {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--heading-color);
+    display: block;
+    margin-bottom: 12px;
+}
+
+.intro-welcome p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text-color);
+}
+
+.research-section {
+    margin-bottom: 24px;
+}
+
+.research-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--heading-color);
+    margin-bottom: 16px;
+}
+
+.research-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.research-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 18px 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+.research-card-header {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--accent-color);
+    display: inline-block;
+}
+
+.research-primary {
+    border-left: 3px solid var(--accent-color);
+}
+
+.research-group {
+    border-left: 3px solid var(--heading-color);
+}
+
+.research-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.research-list li {
+    font-size: 0.92rem;
+    color: var(--text-color);
+    padding: 6px 0;
+    padding-left: 16px;
+    position: relative;
+    line-height: 1.5;
+}
+
+.research-list li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+    font-size: 0.8rem;
+}
+
+.lab-link-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, var(--accent-bg), var(--card-bg));
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+}
+
+.lab-link-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--heading-color);
+}
+
+.lab-link {
+    font-size: 0.95rem;
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.lab-link:hover {
+    color: var(--heading-color);
+    text-decoration: underline;
+}
+
+/* 响应式适配 */
+@media (max-width: 768px) {
+    .research-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
