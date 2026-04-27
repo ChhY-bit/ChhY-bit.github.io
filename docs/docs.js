@@ -40,7 +40,7 @@ async function loadProjectList() {
     if (!container) return;
 
     try {
-        const projects = await scanAndLoadFiles('projects/', 'doc-');
+        const projects = await scanAndLoadFiles('projects/', 'doc-', null, '.md');
 
         if (projects.length === 0) {
             container.innerHTML = '<p class="section-desc">暂无项目文档</p>';
@@ -286,6 +286,8 @@ async function scanAndLoadFiles(dir, prefix, limit = null, ext = '.json') {
     const results = [];
     let index = 1;
 
+    console.log(`[Docs] 开始扫描目录: ${dir}, 前缀: ${prefix}, 扩展名: ${ext}`);
+
     // 递增尝试加载文件，直到找不到文件或达到限制为止
     while (true) {
         // 如果设置了限制且已达到，跳出循环
@@ -294,9 +296,15 @@ async function scanAndLoadFiles(dir, prefix, limit = null, ext = '.json') {
         const filename = `${prefix}${String(index).padStart(3, '0')}${ext}`;
         const filepath = `${dir}${filename}`;
 
+        console.log(`[Docs] 尝试加载: ${filepath}`);
+
         try {
             const response = await fetch(filepath);
-            if (!response.ok) break; // 文件不存在，停止扫描
+
+            if (!response.ok) {
+                console.log(`[Docs] 文件不存在 (${response.status}): ${filepath}`);
+                break; // 文件不存在，停止扫描
+            }
 
             if (ext === '.md') {
                 // Markdown 文件：解析 YAML front matter
@@ -304,16 +312,20 @@ async function scanAndLoadFiles(dir, prefix, limit = null, ext = '.json') {
                 const meta = parseMarkdownMeta(text);
                 meta.id = `${prefix}${String(index).padStart(3, '0')}`.replace('-', '');
                 results.push(meta);
+                console.log(`[Docs] 成功加载: ${filepath}`, meta);
             } else {
                 const data = await response.json();
                 results.push(data);
+                console.log(`[Docs] 成功加载: ${filepath}`, data);
             }
             index++;
         } catch (error) {
+            console.error(`[Docs] 加载失败: ${filepath}`, error);
             break;
         }
     }
 
+    console.log(`[Docs] 扫描完成，共找到 ${results.length} 个文件`);
     return results;
 }
 
