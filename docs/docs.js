@@ -5,6 +5,9 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
+    // 初始化移动端菜单
+    initMobileMenu();
+
     const urlParams = new URLSearchParams(window.location.search);
     const projectId = urlParams.get('id');
 
@@ -14,6 +17,58 @@ document.addEventListener('DOMContentLoaded', function() {
         loadProjectList();
     }
 });
+
+/**
+ * 初始化移动端菜单
+ */
+function initMobileMenu() {
+    const menuBtn = document.getElementById('mobileMenuBtn');
+    const sidebar = document.getElementById('doc-nav');
+    const overlay = document.getElementById('sidebarOverlay');
+
+    if (!menuBtn || !sidebar) return;
+
+    // 切换菜单
+    function toggleMenu(open) {
+        if (open === undefined) {
+            open = !sidebar.classList.contains('open');
+        }
+
+        if (open) {
+            sidebar.classList.add('open');
+            menuBtn.classList.add('active');
+            if (overlay) overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        } else {
+            sidebar.classList.remove('open');
+            menuBtn.classList.remove('active');
+            if (overlay) overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+
+    // 菜单按钮点击
+    menuBtn.addEventListener('click', () => toggleMenu());
+
+    // 遮罩点击关闭
+    if (overlay) {
+        overlay.addEventListener('click', () => toggleMenu(false));
+    }
+
+    // ESC 键关闭菜单
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+            toggleMenu(false);
+        }
+    });
+
+    // 侧边栏内的链接点击后关闭菜单
+    sidebar.addEventListener('click', (e) => {
+        if (e.target.classList.contains('doc-nav-link')) {
+            toggleMenu(false);
+        }
+    });
+}
 
 /**
  * 加载项目列表
