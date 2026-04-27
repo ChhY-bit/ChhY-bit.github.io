@@ -5,8 +5,21 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    // 初始化移动端菜单
-    initMobileMenu();
+    // 移动端菜单已由 main.js 初始化
+    // 只需添加文档页面特定的侧边栏链接点击处理
+    const sidebar = document.getElementById('doc-nav');
+    if (sidebar) {
+        sidebar.addEventListener('click', (e) => {
+            if (e.target.classList.contains('doc-nav-link')) {
+                sidebar.classList.remove('open');
+                const menuBtn = document.getElementById('mobileMenuBtn');
+                const overlay = document.getElementById('sidebarOverlay');
+                if (menuBtn) menuBtn.classList.remove('active');
+                if (overlay) overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    }
 
     const urlParams = new URLSearchParams(window.location.search);
     const projectId = urlParams.get('id');
@@ -17,58 +30,6 @@ document.addEventListener('DOMContentLoaded', function() {
         loadProjectList();
     }
 });
-
-/**
- * 初始化移动端菜单
- */
-function initMobileMenu() {
-    const menuBtn = document.getElementById('mobileMenuBtn');
-    const sidebar = document.getElementById('doc-nav');
-    const overlay = document.getElementById('sidebarOverlay');
-
-    if (!menuBtn || !sidebar) return;
-
-    // 切换菜单
-    function toggleMenu(open) {
-        if (open === undefined) {
-            open = !sidebar.classList.contains('open');
-        }
-
-        if (open) {
-            sidebar.classList.add('open');
-            menuBtn.classList.add('active');
-            if (overlay) overlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        } else {
-            sidebar.classList.remove('open');
-            menuBtn.classList.remove('active');
-            if (overlay) overlay.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-    }
-
-    // 菜单按钮点击
-    menuBtn.addEventListener('click', () => toggleMenu());
-
-    // 遮罩点击关闭
-    if (overlay) {
-        overlay.addEventListener('click', () => toggleMenu(false));
-    }
-
-    // ESC 键关闭菜单
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && sidebar.classList.contains('open')) {
-            toggleMenu(false);
-        }
-    });
-
-    // 侧边栏内的链接点击后关闭菜单
-    sidebar.addEventListener('click', (e) => {
-        if (e.target.classList.contains('doc-nav-link')) {
-            toggleMenu(false);
-        }
-    });
-}
 
 /**
  * 加载项目列表
@@ -319,22 +280,41 @@ function initDocNavigation() {
 async function scanAndLoadFiles(dir, prefix) {
     const results = [];
     let index = 1;
+    let consecutiveErrors = 0;
+    const maxConsecutiveErrors = 5; // 连续5次失败才停止
+    const maxFiles = 100; // 最大文件数，防止无限循环
 
-    while (true) {
+    while (index <= maxFiles) {
         const filename = `${prefix}${String(index).padStart(3, '0')}.md`;
         const filepath = `${dir}${filename}`;
 
         try {
             const response = await fetch(filepath);
-            if (!response.ok) break;
 
-            const text = await response.text();
-            const meta = parseMarkdownMeta(text);
-            meta.id = `${prefix}${String(index).padStart(3, '0')}`.replace('-', '');
-            results.push(meta);
+            if (response.ok) {
+                const text = await response.text();
+                const meta = parseMarkdownMeta(text);
+                meta.id = `${prefix}${String(index).padStart(3, '0')}`.replace('-', '');
+                results.push(meta);
+                consecutiveErrors = 0; // 重置错误计数
+            } else {
+                consecutiveErrors++;
+                // 如果是 404 且连续错误超过阈值，停止搜索
+                if (response.status === 404 && consecutiveErrors >= 2) {
+                    break;
+                }
+            }
             index++;
         } catch (error) {
-            break;
+            consecutiveErrors++;
+            // 网络错误时多尝试几次
+            if (consecutiveErrors >= maxConsecutiveErrors) {
+                console.warn('文件加载已达到最大重试次数，停止搜索');
+                break;
+            }
+            // 短暂延迟后重试
+            await new Promise(resolve => setTimeout(resolve, 100));
+            index++;
         }
     }
 

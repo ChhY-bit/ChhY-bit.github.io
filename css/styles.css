@@ -829,11 +829,6 @@ p {
     .project-grid {
         grid-template-columns: 1fr;
     }
-
-    .doc-nav-menu,
-    .doc-content {
-        display: none;
-    }
 }
 
 /* 文档页面样式 */
@@ -1330,38 +1325,43 @@ p {
 }
 
 /* ========================================
-   移动端菜单按钮
+   移动端菜单按钮 - 汉堡菜单
    ======================================== */
 .mobile-menu-btn {
-    display: none;
+    display: none !important;
     position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 1001;
+    top: 16px;
+    left: 16px;
+    z-index: 2000;
     width: 44px;
     height: 44px;
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
+    background: var(--accent-color);
+    border: none;
+    border-radius: 10px;
     cursor: pointer;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 5px;
     padding: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     transition: all 0.3s ease;
 }
 
 .mobile-menu-btn:hover {
-    border-color: var(--accent-color);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    background: var(--link-color);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+    transform: scale(1.05);
+}
+
+.mobile-menu-btn:active {
+    transform: scale(0.95);
 }
 
 .menu-icon {
     width: 20px;
-    height: 2px;
-    background: var(--text-primary);
+    height: 2.5px;
+    background: #ffffff;
     border-radius: 2px;
     transition: all 0.3s ease;
 }
@@ -1372,6 +1372,7 @@ p {
 
 .mobile-menu-btn.active .menu-icon:nth-child(2) {
     opacity: 0;
+    transform: scaleX(0);
 }
 
 .mobile-menu-btn.active .menu-icon:nth-child(3) {
@@ -1380,20 +1381,24 @@ p {
 
 /* 侧边栏遮罩 */
 .sidebar-overlay {
-    display: none;
+    display: block;
+    visibility: hidden;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 998;
+    z-index: 1999;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .sidebar-overlay.active {
     opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
 }
 
 /* ========================================
@@ -1402,19 +1407,26 @@ p {
 @media (max-width: 768px) {
     /* 移动端菜单按钮显示 */
     .mobile-menu-btn {
-        display: flex;
+        display: flex !important;
     }
 
     /* 主题选择器位置调整 */
     .theme-switcher {
-        top: 20px;
-        right: 10px;
+        top: 16px;
+        right: 16px;
         left: auto;
-        padding: 6px 10px;
+        padding: 8px 12px;
+        gap: 6px;
+        z-index: 1000;
     }
 
     .theme-switcher-label {
         display: none;
+    }
+
+    .theme-btn {
+        width: 22px;
+        height: 22px;
     }
 
     /* 容器布局调整 */
@@ -1429,26 +1441,33 @@ p {
         left: 0;
         width: 280px;
         height: 100vh;
-        z-index: 999;
+        z-index: 2000;
         transform: translateX(-100%);
         transition: transform 0.3s ease;
-        padding-top: 80px;
+        padding-top: 70px;
         box-shadow: 4px 0 20px rgba(0,0,0,0.2);
+        pointer-events: none;
+        visibility: hidden;
     }
 
     .sidebar.open {
         transform: translateX(0);
+        pointer-events: auto;
+        visibility: visible;
     }
 
     .sidebar-header {
         padding-top: 20px;
     }
 
-    /* 主内容区域 */
+    /* 主内容区域 - 确保不被遮挡 */
     .main-content {
         margin-left: 0;
         padding: 80px 16px 40px;
         min-height: 100vh;
+        position: relative;
+        z-index: 1;
+        background-color: var(--body-bg);
     }
 
     /* 文档内容 */
@@ -1503,8 +1522,8 @@ p {
     /* 代码块 - 横向滚动 */
     .doc-content pre {
         padding: 14px;
-        margin: 12px -16px;
-        border-radius: 0;
+        margin: 12px 0;
+        border-radius: 8px;
         font-size: 0.85rem;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
