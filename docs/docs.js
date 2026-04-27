@@ -276,45 +276,41 @@ function initDocNavigation() {
 
 /**
  * 自动扫描目录并加载所有匹配前缀的文件
+ * @param {string} dir - 目录路径
+ * @param {string} prefix - 文件名前缀
+ * @param {number} limit - 最大加载数量（可选，默认全部）
+ * @param {string} ext - 文件扩展名，默认 .json，可选 .md
+ * @returns {Promise<Array>} 按序号排序的数据数组
  */
-async function scanAndLoadFiles(dir, prefix) {
+async function scanAndLoadFiles(dir, prefix, limit = null, ext = '.json') {
     const results = [];
     let index = 1;
-    let consecutiveErrors = 0;
-    const maxConsecutiveErrors = 5; // 连续5次失败才停止
-    const maxFiles = 100; // 最大文件数，防止无限循环
 
-    while (index <= maxFiles) {
-        const filename = `${prefix}${String(index).padStart(3, '0')}.md`;
+    // 递增尝试加载文件，直到找不到文件或达到限制为止
+    while (true) {
+        // 如果设置了限制且已达到，跳出循环
+        if (limit && results.length >= limit) break;
+
+        const filename = `${prefix}${String(index).padStart(3, '0')}${ext}`;
         const filepath = `${dir}${filename}`;
 
         try {
             const response = await fetch(filepath);
+            if (!response.ok) break; // 文件不存在，停止扫描
 
-            if (response.ok) {
+            if (ext === '.md') {
+                // Markdown 文件：解析 YAML front matter
                 const text = await response.text();
                 const meta = parseMarkdownMeta(text);
                 meta.id = `${prefix}${String(index).padStart(3, '0')}`.replace('-', '');
                 results.push(meta);
-                consecutiveErrors = 0; // 重置错误计数
             } else {
-                consecutiveErrors++;
-                // 如果是 404 且连续错误超过阈值，停止搜索
-                if (response.status === 404 && consecutiveErrors >= 2) {
-                    break;
-                }
+                const data = await response.json();
+                results.push(data);
             }
             index++;
         } catch (error) {
-            consecutiveErrors++;
-            // 网络错误时多尝试几次
-            if (consecutiveErrors >= maxConsecutiveErrors) {
-                console.warn('文件加载已达到最大重试次数，停止搜索');
-                break;
-            }
-            // 短暂延迟后重试
-            await new Promise(resolve => setTimeout(resolve, 100));
-            index++;
+            break;
         }
     }
 
