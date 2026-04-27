@@ -1118,10 +1118,226 @@ p {
     text-decoration: underline;
 }
 
+/* ========== 文档页面样式 ========== */
+
+/* 加载占位符 */
+.loading-placeholder {
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+/* 文档主内容区域 */
+.doc-main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* 文档头部 */
+.doc-header {
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.doc-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--heading-color);
+    margin-bottom: 12px;
+}
+
+.doc-meta {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.doc-version {
+    background: var(--accent-bg);
+    color: var(--accent-color);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.doc-date {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.doc-desc {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Markdown 内容样式 */
+.doc-content h1 {
+    font-size: 1.8rem;
+    color: var(--heading-color);
+    margin: 30px 0 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.doc-content h2 {
+    font-size: 1.4rem;
+    color: var(--heading-color);
+    margin: 28px 0 12px;
+    padding-left: 12px;
+    border-left: 4px solid var(--accent-color);
+}
+
+.doc-content h3 {
+    font-size: 1.15rem;
+    color: var(--heading-color);
+    margin: 20px 0 10px;
+}
+
+.doc-content p {
+    line-height: 1.8;
+    margin-bottom: 16px;
+}
+
+.doc-content ul,
+.doc-content ol {
+    margin: 16px 0;
+    padding-left: 24px;
+}
+
+.doc-content li {
+    line-height: 1.8;
+    margin-bottom: 8px;
+}
+
+.doc-content code {
+    background: var(--bg-secondary);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.9em;
+    color: var(--heading-color);
+}
+
+.doc-content pre {
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    padding: 16px 20px;
+    overflow-x: auto;
+    margin: 16px 0;
+    border: 1px solid var(--border-color);
+}
+
+.doc-content pre code {
+    background: none;
+    padding: 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.doc-content blockquote {
+    background: var(--tip-bg, #e8f4fd);
+    border-left: 4px solid var(--accent-color);
+    padding: 12px 16px;
+    margin: 16px 0;
+    border-radius: 0 8px 8px 0;
+}
+
+.doc-content blockquote p:last-child {
+    margin-bottom: 0;
+}
+
+.doc-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+}
+
+.doc-content th,
+.doc-content td {
+    border: 1px solid var(--border-color);
+    padding: 10px 14px;
+    text-align: left;
+}
+
+.doc-content th {
+    background: var(--bg-secondary);
+    font-weight: 600;
+}
+
+.doc-content a {
+    color: var(--accent-color);
+}
+
+.doc-content a:hover {
+    text-decoration: underline;
+}
+
+/* 侧边栏目录样式 */
+.doc-nav-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.doc-nav-item {
+    margin: 2px 0;
+}
+
+.doc-nav-link {
+    display: block;
+    padding: 8px 16px;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+}
+
+.doc-nav-link:hover {
+    background: var(--sidebar-hover);
+    color: var(--sidebar-text-muted);
+}
+
+.doc-nav-link.active {
+    background: var(--sidebar-active-bg);
+    color: var(--sidebar-active);
+}
+
+.doc-nav-link.sub-item {
+    padding-left: 28px;
+    font-size: 0.85rem;
+}
+
+/* 错误页面 */
+.error-container {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.error-container h2 {
+    color: var(--error-color, #e53e3e);
+    margin-bottom: 16px;
+}
+
+.error-container p {
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
 /* 响应式适配 */
 @media (max-width: 768px) {
     .research-grid {
         grid-template-columns: 1fr;
     }
+
+    .doc-nav-link {
+        padding: 6px 12px;
+    }
 }
+
 

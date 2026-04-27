@@ -1,7 +1,7 @@
 /**
- * 文档渲染引擎
- * 自动扫描 projects 目录下的所有 JSON 文件并动态渲染
- * 文件命名规则：doc-001.json, doc-002.json, ...
+ * 文档渲染引擎 (Markdown 版本)
+ * 自动扫描 projects 目录下的所有 Markdown 文件并动态渲染
+ * 文件命名规则：doc-001.md, doc-002.md, ...
  */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -17,14 +17,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /**
  * 加载项目列表
- * 自动扫描 projects/ 目录下所有 doc-*.json 文件
+ * 自动扫描 projects/ 目录下所有 doc-*.md 文件
  */
 async function loadProjectList() {
     const container = document.getElementById('project-list');
     if (!container) return;
 
     try {
-        // 自动扫描所有 doc-*.json 文件
         const projects = await scanAndLoadFiles('projects/', 'doc-');
 
         if (projects.length === 0) {
@@ -57,57 +56,125 @@ async function loadProjectList() {
  */
 async function loadProjectDoc(projectId) {
     try {
-        // 直接加载对应的 JSON 文件
-        const projectData = await fetchJSON(`projects/${projectId}.json`);
-        renderDocPage(projectData);
+        // 将 doc001 转换为 doc-001 格式
+        const filename = projectId.replace(/(\d+)$/, '-$1');
+        const response = await fetch(`projects/${filename}.md`);
+        if (!response.ok) {
+            throw new Error(`文档不存在: ${projectId}`);
+        }
+        const markdown = await response.text();
+
+        // 解析文档获取元数据
+        const meta = parseMarkdownMeta(markdown);
+
+        renderDocPage(meta, markdown);
     } catch (error) {
         showError('加载文档失败: ' + error.message);
     }
 }
 
 /**
+ * 解析 Markdown 文件的元数据（YAML front matter）
+ */
+function parseMarkdownMeta(markdown) {
+    const meta = {
+        name: '未命名文档',
+        version: '1.0.0',
+        lastUpdated: '',
+        description: '',
+        id: ''
+    };
+
+    // 解析 YAML front matter
+    const frontMatterMatch = markdown.match(/^---\n([\s\S]*?)\n---/);
+    if (frontMatterMatch) {
+        const yaml = frontMatterMatch[1];
+        yaml.split('\n').forEach(line => {
+            const [key, ...valueParts] = line.split(':');
+            const value = valueParts.join(':').trim();
+            if (key && value) {
+                const k = key.trim();
+                if (k === 'name') meta.name = value;
+                else if (k === 'version') meta.version = value;
+                else if (k === 'lastUpdated') meta.lastUpdated = value;
+                else if (k === 'description') meta.description = value;
+                else if (k === 'id') meta.id = value;
+            }
+        });
+    }
+
+    return meta;
+}
+
+/**
+ * 提取 Markdown 目录结构
+ */
+function extractToc(markdown) {
+    // 移除 front matter
+    const content = markdown.replace(/^---[\s\S]*?---\n/, '');
+    const toc = [];
+
+    // 匹配 ## 标题（h2）
+    const h2Regex = /^##\s+(.+)$/gm;
+    let match;
+    while ((match = h2Regex.exec(content)) !== null) {
+        const title = match[1].trim();
+        const id = titleToId(title);
+        toc.push({ level: 2, title, id });
+    }
+
+    return toc;
+}
+
+/**
+ * 标题转 ID
+ */
+function titleToId(title) {
+    return title
+        .toLowerCase()
+        .replace(/[^\w\u4e00-\u9fa5\s-]/g, '')
+        .replace(/\s+/g, '-');
+}
+
+/**
  * 渲染文档页面
  */
-function renderDocPage(project) {
-    document.title = `${project.name} - 使用文档`;
-    renderSidebar(project);
-    renderContent(project);
+function renderDocPage(meta, markdown) {
+    document.title = `${meta.name} - 使用文档`;
+
+    // 移除 front matter
+    const content = markdown.replace(/^---[\s\S]*?---\n/, '');
+
+    // 提取目录
+    const toc = extractToc(markdown);
+
+    renderSidebar(meta, toc);
+    renderContent(meta, content);
 }
 
 /**
  * 渲染侧边栏导航
  */
-function renderSidebar(project) {
+function renderSidebar(meta, toc) {
     const navContainer = document.getElementById('doc-nav');
     if (!navContainer) return;
 
     let navHTML = `
         <div class="sidebar-header">
             <a href="index.html" class="back-link">← 返回文档列表</a>
-            <div class="project-title">${project.name}</div>
+            <div class="project-title">${meta.name}</div>
         </div>
         <ul class="doc-nav-menu">
     `;
 
-    if (project.sections) {
-        project.sections.forEach(section => {
-            navHTML += `
-                <li class="doc-nav-item">
-                    <a href="#${section.id}" class="doc-nav-link" data-section="${section.id}">${section.title}</a>
-                </li>
-            `;
-
-            if (section.subsections) {
-                section.subsections.forEach(sub => {
-                    navHTML += `
-                        <li class="doc-nav-item">
-                            <a href="#${sub.id}" class="doc-nav-link sub-item" data-section="${sub.id}">· ${sub.title}</a>
-                        </li>
-                    `;
-                });
-            }
-        });
-    }
+    toc.forEach(item => {
+        const indentClass = item.level === 3 ? 'sub-item' : '';
+        navHTML += `
+            <li class="doc-nav-item">
+                <a href="#${item.id}" class="doc-nav-link ${indentClass}" data-section="${item.id}">${item.title}</a>
+            </li>
+        `;
+    });
 
     navHTML += '</ul>';
     navContainer.innerHTML = navHTML;
@@ -118,34 +185,39 @@ function renderSidebar(project) {
 /**
  * 渲染文档内容
  */
-function renderContent(project) {
+function renderContent(meta, markdown) {
     const contentContainer = document.getElementById('doc-content');
     if (!contentContainer) return;
 
-    let contentHTML = `
-        <h1>${project.name}</h1>
-        <p class="doc-meta">版本 ${project.version || '1.0.0'} · 最后更新: ${project.lastUpdated || ''}</p>
+    // 移除 front matter
+    let content = markdown.replace(/^---[\s\S]*?---\n/, '');
+
+    // 处理标题，添加 ID
+    content = content.replace(/^### (.+)$/gm, (match, title) => {
+        const id = titleToId(title);
+        return `<h3 id="${id}">${title}</h3>`;
+    });
+    content = content.replace(/^## (.+)$/gm, (match, title) => {
+        const id = titleToId(title);
+        return `<h2 id="${id}">${title}</h2>`;
+    });
+    content = content.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+
+    // 使用 marked.js 渲染剩余 Markdown
+    const html = marked.parse(content);
+
+    let headerHtml = `
+        <div class="doc-header">
+            <h1 class="doc-title">${meta.name}</h1>
+            <div class="doc-meta">
+                ${meta.version ? `<span class="doc-version">v${meta.version}</span>` : ''}
+                ${meta.lastUpdated ? `<span class="doc-date">${meta.lastUpdated}</span>` : ''}
+            </div>
+            ${meta.description ? `<p class="doc-desc">${meta.description}</p>` : ''}
+        </div>
     `;
 
-    if (project.sections) {
-        project.sections.forEach(section => {
-            contentHTML += `
-                <h2 id="${section.id}">${section.title}</h2>
-                <div class="section-content">${section.content}</div>
-            `;
-
-            if (section.subsections) {
-                section.subsections.forEach(sub => {
-                    contentHTML += `
-                        <h3 id="${sub.id}">${sub.title}</h3>
-                        <div class="section-content">${sub.content}</div>
-                    `;
-                });
-            }
-        });
-    }
-
-    contentContainer.innerHTML = contentHTML;
+    contentContainer.innerHTML = headerHtml + html;
 }
 
 /**
@@ -187,26 +259,24 @@ function initDocNavigation() {
 }
 
 /**
- * 自动扫描目录并加载所有匹配前缀的 JSON 文件
- * @param {string} dir - 目录路径
- * @param {string} prefix - 文件名前缀
- * @returns {Promise<Array>} 按序号排序的数据数组
+ * 自动扫描目录并加载所有匹配前缀的文件
  */
 async function scanAndLoadFiles(dir, prefix) {
     const results = [];
     let index = 1;
 
-    // 递增尝试加载文件，直到找不到文件为止
     while (true) {
-        const filename = `${prefix}${String(index).padStart(3, '0')}.json`;
+        const filename = `${prefix}${String(index).padStart(3, '0')}.md`;
         const filepath = `${dir}${filename}`;
 
         try {
             const response = await fetch(filepath);
-            if (!response.ok) break; // 文件不存在，停止扫描
+            if (!response.ok) break;
 
-            const data = await response.json();
-            results.push(data);
+            const text = await response.text();
+            const meta = parseMarkdownMeta(text);
+            meta.id = `${prefix}${String(index).padStart(3, '0')}`.replace('-', '');
+            results.push(meta);
             index++;
         } catch (error) {
             break;
@@ -217,26 +287,15 @@ async function scanAndLoadFiles(dir, prefix) {
 }
 
 /**
- * 获取 JSON 数据
- */
-async function fetchJSON(url) {
-    const response = await fetch(url);
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return await response.json();
-}
-
-/**
  * 显示错误信息
  */
 function showError(message) {
     const container = document.querySelector('.main-content') || document.body;
     container.innerHTML = `
-        <div style="padding: 40px; text-align: center;">
-            <h2 style="color: #e53e3e;">出错了</h2>
-            <p style="color: #718096; margin-top: 10px;">${message}</p>
-            <a href="index.html" style="display: inline-block; margin-top: 20px; color: #3182ce;">返回文档列表</a>
+        <div class="error-container">
+            <h2>出错了</h2>
+            <p>${message}</p>
+            <a href="index.html" class="back-link">← 返回文档列表</a>
         </div>
     `;
 }
