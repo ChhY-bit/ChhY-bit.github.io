@@ -292,6 +292,8 @@ body {
     height: 100vh;
     overflow-y: auto;
     border-right: 1px solid var(--sidebar-border);
+    display: flex;
+    flex-direction: column;
 }
 
 .profile-section {
@@ -340,6 +342,32 @@ body {
     font-weight: 600;
     color: var(--sidebar-text);
     margin-top: 5px;
+}
+
+/* 导航栏底部统计 */
+.site-stats {
+    margin-top: auto;
+    padding-top: 20px;
+    text-align: center;
+    font-size: 11px;
+    color: var(--sidebar-text-muted);
+    opacity: 0.5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.stats-label {
+    font-size: 11px;
+}
+
+.stats-value {
+    font-variant-numeric: tabular-nums;
+}
+
+.stats-divider {
+    opacity: 0.5;
 }
 
 /* 导航菜单 */
@@ -1448,12 +1476,19 @@ p {
         box-shadow: 4px 0 20px rgba(0,0,0,0.2);
         pointer-events: none;
         visibility: hidden;
+        display: flex;
+        flex-direction: column;
     }
 
     .sidebar.open {
         transform: translateX(0);
         pointer-events: auto;
         visibility: visible;
+    }
+
+    /* 移动端隐藏底部统计 */
+    .site-stats {
+        display: none;
     }
 
     .sidebar-header {
@@ -1695,6 +1730,8 @@ p {
 @media (min-width: 769px) and (max-width: 1024px) {
     .sidebar {
         width: 220px;
+        display: flex;
+        flex-direction: column;
     }
 
     .main-content {
