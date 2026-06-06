@@ -1,6 +1,8 @@
 {
   "id": "comp004",
   "year": "2025",
+  "level": "国家级",
+  "prize": 1,
   "title": "中国大学生计算机博弈大赛",
   "description": "一等奖",
   "image": "data/competitions/images/2025年计算机博弈大赛.png"

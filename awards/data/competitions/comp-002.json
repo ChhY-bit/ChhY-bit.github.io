@@ -1,6 +1,8 @@
 {
   "id": "comp002",
   "year": "2025",
+  "level": "省部级",
+  "prize": 2,
   "title": "中国高校智能机器人创意大赛（大区赛）",
   "description": "二等奖",
   "image": "data/competitions/images/2025年机器人创意大赛大区赛.jpg"

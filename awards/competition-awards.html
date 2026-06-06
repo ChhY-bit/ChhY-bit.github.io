@@ -83,6 +83,13 @@
                 <h1 id="page-title">竞赛奖项</h1>
                 <p class="section-desc" id="page-desc">以下是我参加各类竞赛获得的奖项和荣誉。</p>
 
+                <!-- 排序控件（仅竞赛奖项页显示） -->
+                <div class="sort-controls" id="sort-controls">
+                    <button class="sort-btn active" data-sort="level">按级别</button>
+                    <button class="sort-btn" data-sort="year">按年份</button>
+                    <button class="sort-order-btn" id="sort-order-btn" title="切换正序/倒序">↓</button>
+                </div>
+
                 <!-- 证书列表（由 JS 动态渲染） -->
                 <div class="certificate-grid" id="award-list">
                     <p class="section-desc">正在加载...</p>

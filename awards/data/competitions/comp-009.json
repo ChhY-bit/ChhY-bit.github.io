@@ -1,6 +1,8 @@
 {
   "id": "comp009",
   "year": "2024",
+  "level": "国家级",
+  "prize": 2,
   "title": "全国大学生嵌入式芯片与系统设计大赛（全国赛）",
   "description": "二等奖",
   "image": "data/competitions/images/2024嵌赛国赛.png"

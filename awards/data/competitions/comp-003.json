@@ -1,6 +1,8 @@
 {
   "id": "comp003",
   "year": "2025",
+  "level": "国家级",
+  "prize": 3,
   "title": "中国高校智能机器人创意大赛（全国赛）",
   "description": "三等奖",
   "image": "data/competitions/images/2025年机器人创意大赛大区赛国赛.jpg"
