@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const type = window.AWARDS_TYPE || urlParams.get('type') || 'honors';
 
     loadAwards(type);
+    initLightbox();
 });
 
 /** 级别权重（用于排序） */
@@ -91,19 +92,8 @@ async function loadAwards(type) {
     }
 
     try {
-        // 先快速统计记录数量
-        const total = await countFiles(config.dataUrl, config.prefix);
-
-        if (total === 0) {
-            container.innerHTML = '<p class="section-desc">暂无内容</p>';
-            return;
-        }
-
-        // 显示带数量的加载提示
-        showLoading(container, total);
-
-        // 自动扫描并加载所有匹配前缀的 JSON 文件
-        allItems = await scanAndLoadFiles(config.dataUrl, config.prefix);
+        // 统计 + 加载一步完成（先计数显示，再解析数据）
+        allItems = await countAndLoadFiles(config.dataUrl, config.prefix, container);
 
         if (allItems.length === 0) {
             container.innerHTML = '<p class="section-desc">暂无内容</p>';
@@ -219,43 +209,16 @@ function updateOrderButton() {
 }
 
 /**
- * 自动扫描目录并加载所有匹配前缀的 JSON 文件
+ * 统计并加载所有匹配前缀的 JSON 文件
+ * 先快速扫描数量 → 立即显示"正在加载 X 条记录" → 再解析数据
  * @param {string} dir - 目录路径
  * @param {string} prefix - 文件名前缀
+ * @param {HTMLElement} container - 加载提示容器
  * @returns {Promise<Array>} 数据数组
  */
-async function scanAndLoadFiles(dir, prefix) {
-    const results = [];
-    let index = 1;
-
-    // 递增尝试加载文件，直到找不到文件为止
-    while (true) {
-        const filename = `${prefix}${String(index).padStart(3, '0')}.json`;
-        const filepath = `${dir}${filename}`;
-
-        try {
-            const response = await fetch(filepath);
-            if (!response.ok) break; // 文件不存在，停止扫描
-
-            const data = await response.json();
-            results.push(data);
-            index++;
-        } catch (error) {
-            break;
-        }
-    }
-
-    return results;
-}
-
-/**
- * 快速统计匹配前缀的文件数量（仅检查响应状态，不解析 JSON）
- * @param {string} dir - 目录路径
- * @param {string} prefix - 文件名前缀
- * @returns {Promise<number>} 文件总数
- */
-async function countFiles(dir, prefix) {
-    let count = 0;
+async function countAndLoadFiles(dir, prefix, container) {
+    // 第一步：快速扫描，收集存在的文件路径
+    const filepaths = [];
     let index = 1;
 
     while (true) {
@@ -263,14 +226,32 @@ async function countFiles(dir, prefix) {
         try {
             const response = await fetch(filepath);
             if (!response.ok) break;
-            count++;
+            filepaths.push(filepath);
             index++;
         } catch (error) {
             break;
         }
     }
 
-    return count;
+    const total = filepaths.length;
+    if (total === 0) return [];
+
+    // 扫描完成，立即显示计数
+    showLoading(container, total);
+
+    // 第二步：逐一解析 JSON
+    const results = [];
+    for (const filepath of filepaths) {
+        try {
+            const response = await fetch(filepath);
+            const data = await response.json();
+            results.push(data);
+        } catch (error) {
+            // 解析失败的跳过
+        }
+    }
+
+    return results;
 }
 
 /**
@@ -280,4 +261,59 @@ async function countFiles(dir, prefix) {
  */
 function showLoading(container, total) {
     container.innerHTML = `<p class="section-desc loading-text">正在加载 ${total} 条记录<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></p>`;
+}
+
+// ========================================
+//  图片灯箱（Lightbox）
+// ========================================
+
+/** 初始化灯箱：创建遮罩 + 事件委托 + ESC 关闭 */
+function initLightbox() {
+    const awardList = document.getElementById('award-list');
+    if (!awardList) return;
+
+    // 创建灯箱 DOM（只创建一次）
+    const lightbox = document.createElement('div');
+    lightbox.className = 'lightbox';
+    lightbox.innerHTML = '<span class="lightbox-close">&times;</span>';
+    document.body.appendChild(lightbox);
+
+    const img = document.createElement('img');
+    img.alt = '';
+    lightbox.appendChild(img);
+
+    // 关闭灯箱
+    function close() {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // 打开灯箱
+    function open(src) {
+        img.src = src;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // 事件委托：点击证书区域的图片
+    awardList.addEventListener('click', function(e) {
+        const target = e.target.closest('.certificate-image img');
+        if (target && target.src) {
+            open(target.src);
+        }
+    });
+
+    // 关闭方式 1：点击遮罩背景
+    lightbox.addEventListener('click', function(e) {
+        if (e.target === lightbox || e.target.classList.contains('lightbox-close')) {
+            close();
+        }
+    });
+
+    // 关闭方式 2：ESC 键
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+            close();
+        }
+    });
 }
