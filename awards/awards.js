@@ -212,16 +212,15 @@ function updateOrderButton() {
 }
 
 /**
- * 统计并加载所有匹配前缀的 JSON 文件
- * 先快速扫描数量 → 立即显示"正在加载 X 条记录" → 再解析数据
+ * 加载所有匹配前缀的 JSON 文件（一趟完成，实时更新计数）
+ * 每加载成功一条就更新"正在加载 X 条记录..."，无需预先扫描
  * @param {string} dir - 目录路径
  * @param {string} prefix - 文件名前缀
  * @param {HTMLElement} container - 加载提示容器
  * @returns {Promise<Array>} 数据数组
  */
 async function countAndLoadFiles(dir, prefix, container) {
-    // 第一步：快速扫描，收集存在的文件路径
-    const filepaths = [];
+    const results = [];
     let index = 1;
 
     while (true) {
@@ -229,41 +228,20 @@ async function countAndLoadFiles(dir, prefix, container) {
         try {
             const response = await fetch(filepath);
             if (!response.ok) break;
-            filepaths.push(filepath);
+
+            const data = await response.json();
+            results.push(data);
+
+            // 实时更新加载提示
+            container.innerHTML = `<p class="section-desc loading-text">正在加载 ${results.length} 条记录<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></p>`;
+
             index++;
         } catch (error) {
             break;
         }
     }
 
-    const total = filepaths.length;
-    if (total === 0) return [];
-
-    // 扫描完成，立即显示计数
-    showLoading(container, total);
-
-    // 第二步：逐一解析 JSON
-    const results = [];
-    for (const filepath of filepaths) {
-        try {
-            const response = await fetch(filepath);
-            const data = await response.json();
-            results.push(data);
-        } catch (error) {
-            // 解析失败的跳过
-        }
-    }
-
     return results;
-}
-
-/**
- * 设置加载中的提示文本（带动画）
- * @param {HTMLElement} container - 容器元素
- * @param {number} total - 记录总数
- */
-function showLoading(container, total) {
-    container.innerHTML = `<p class="section-desc loading-text">正在加载 ${total} 条记录<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></p>`;
 }
 
 // ========================================
