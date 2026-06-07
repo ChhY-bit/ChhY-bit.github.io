@@ -67,7 +67,7 @@ async function loadAwards(type) {
             navId: 'competition-awards.html'
         },
         'others': {
-            title: '其他奖项',
+            title: '其他证书',
             desc: '以下是我获得的其他类型奖项和荣誉证明。',
             dataUrl: 'data/others/',
             prefix: 'other-',
