@@ -92,7 +92,10 @@ async function loadAwards(type) {
     }
 
     try {
-        // 统计 + 加载一步完成（先计数显示，再解析数据）
+        // 立即显示加载提示（数量未知，先用通用文本）
+        container.innerHTML = `<p class="section-desc loading-text">正在加载<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></p>`;
+
+        // 统计 + 加载一步完成（扫描到数量后自动更新为"正在加载 X 条记录"）
         allItems = await countAndLoadFiles(config.dataUrl, config.prefix, container);
 
         if (allItems.length === 0) {
