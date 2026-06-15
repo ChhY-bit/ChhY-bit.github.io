@@ -123,20 +123,21 @@ function parseMarkdownMeta(markdown) {
 }
 
 /**
- * 提取 Markdown 目录结构
+ * 提取 Markdown 目录结构（含二级和三级标题）
  */
 function extractToc(markdown) {
     // 移除 front matter
     const content = markdown.replace(/^---[\s\S]*?---\n/, '');
     const toc = [];
 
-    // 匹配 ## 标题（h2）
-    const h2Regex = /^##\s+(.+)$/gm;
+    // 匹配 ## 和 ### 标题
+    const headingRegex = /^(#{2,3})\s+(.+)$/gm;
     let match;
-    while ((match = h2Regex.exec(content)) !== null) {
-        const title = match[1].trim();
+    while ((match = headingRegex.exec(content)) !== null) {
+        const level = match[1].length; // ## = 2, ### = 3
+        const title = match[2].trim();
         const id = titleToId(title);
-        toc.push({ level: 2, title, id });
+        toc.push({ level, title, id });
     }
 
     return toc;
