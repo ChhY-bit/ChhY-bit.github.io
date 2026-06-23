@@ -1963,4 +1963,55 @@ p {
     }
 }
 
+/* ========================================
+   页脚
+   ======================================== */
+.site-footer {
+    margin-top: 30px;
+    padding: 24px 0 8px;
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+}
 
+.footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.footer-copyright {
+    color: var(--text-secondary);
+}
+
+.footer-divider {
+    color: var(--border-color);
+    user-select: none;
+}
+
+.footer-beian {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-beian:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+/* 移动端页脚适配 */
+@media (max-width: 768px) {
+    .site-footer {
+        margin-top: 20px;
+        padding: 16px 0 8px;
+    }
+
+    .footer-content {
+        font-size: 12px;
+        gap: 6px;
+    }
+}
