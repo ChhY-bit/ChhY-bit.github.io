@@ -349,9 +349,9 @@ body {
     margin-top: auto;
     padding-top: 20px;
     text-align: center;
-    font-size: 11px;
+    font-size: 12px;
     color: var(--sidebar-text-muted);
-    opacity: 0.5;
+    opacity: 0.7;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1968,7 +1968,7 @@ p {
    ======================================== */
 .site-footer {
     margin-top: 30px;
-    padding: 24px 0 8px;
+    padding: 20px 0 12px;
     text-align: center;
     border-top: 1px solid var(--border-color);
 }
@@ -1978,8 +1978,8 @@ p {
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 10px;
-    font-size: 13px;
+    gap: 8px;
+    font-size: 12px;
     color: var(--text-secondary);
 }
 
@@ -2007,11 +2007,11 @@ p {
 @media (max-width: 768px) {
     .site-footer {
         margin-top: 20px;
-        padding: 16px 0 8px;
+        padding: 14px 0 10px;
     }
 
     .footer-content {
-        font-size: 12px;
-        gap: 6px;
+        font-size: 11px;
+        gap: 5px;
     }
 }
